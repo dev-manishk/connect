@@ -139,12 +139,9 @@ const LoginPage = () => {
 
             <div className="text-center space-y-3 mt-6">
               <h2 className="text-xl font-semibold">
-                Connect with language partners worldwide
+                Connect with people worldwide and turn conversations into real
+                friendships
               </h2>
-              <p className="opacity-70">
-                Practice conversations, make friends, and improve your language
-                skills together
-              </p>
             </div>
           </div>
         </div>
