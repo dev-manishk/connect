@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, #c9e8c9, #b7e7bb);
+  background: linear-gradient(to bottom, #0e0112, #2f0534);
   height: 100%;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .str-chat__list {
-  background-color: #ffffff;
+  background-color: #f2eeee;
   padding: 12px;
 }
 
