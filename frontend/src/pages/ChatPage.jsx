@@ -17,10 +17,9 @@ import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 
 import ChatLoader from "../components/ChatLoader";
-import CallButton from "../components/CallButton";
+import { Phone, Video } from "lucide-react";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
-
 
 const ChatPage = () => {
   const { id: targetUserId } = useParams();
@@ -34,7 +33,7 @@ const ChatPage = () => {
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,
-    enabled: !!authUser, // this will run only when authUser is available
+    enabled: !!authUser,
   });
 
   useEffect(() => {
@@ -42,8 +41,6 @@ const ChatPage = () => {
       if (!tokenData?.token || !authUser) return;
 
       try {
-        console.log("Initializing stream chat client...");
-
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
         await client.connectUser(
@@ -55,12 +52,7 @@ const ChatPage = () => {
           tokenData.token
         );
 
-        //
         const channelId = [authUser._id, targetUserId].sort().join("-");
-
-        // you and me
-        // if i start the chat => channelId: [myId, yourId]
-        // if you start the chat => channelId: [yourId, myId]  => [myId,yourId]
 
         const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, targetUserId],
@@ -72,7 +64,7 @@ const ChatPage = () => {
         setChannel(currChannel);
       } catch (error) {
         console.error("Error initializing chat:", error);
-        toast.error("Could not connect to chat. Please try again.");
+        toast.error("Could not connect to chat.");
       } finally {
         setLoading(false);
       }
@@ -81,15 +73,29 @@ const ChatPage = () => {
     initChat();
   }, [tokenData, authUser, targetUserId]);
 
+  // 🎥 Video Call
   const handleVideoCall = () => {
     if (channel) {
       const callUrl = `${window.location.origin}/call/${channel.id}`;
 
       channel.sendMessage({
-        text: `I've started a video call. Join me here: ${callUrl}`,
+        text: `🎥 Video call started. Join here: ${callUrl}`,
       });
 
-      toast.success("Video call link sent successfully!");
+      toast.success("Video call link sent!");
+    }
+  };
+
+  // 📞 Voice Call
+  const handleVoiceCall = () => {
+    if (channel) {
+      const callUrl = `${window.location.origin}/voice-call/${channel.id}`;
+
+      channel.sendMessage({
+        text: `📞 Voice call started. Join here: ${callUrl}`,
+      });
+
+      toast.success("Voice call link sent!");
     }
   };
 
@@ -100,7 +106,28 @@ const ChatPage = () => {
       <Chat client={chatClient}>
         <Channel channel={channel}>
           <div className="w-full relative">
-            <CallButton handleVideoCall={handleVideoCall} />
+
+            {/* 🔥 Top Right Call Buttons */}
+            <div className="absolute top-3 right-3 flex gap-2 z-10">
+              
+              {/* Voice Call */}
+              <button
+                onClick={handleVoiceCall}
+                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md transition"
+              >
+                <Phone size={18} />
+              </button>
+
+              {/* Video Call */}
+              <button
+                onClick={handleVideoCall}
+                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition"
+              >
+                <Video size={18} />
+              </button>
+
+            </div>
+
             <Window>
               <ChannelHeader />
               <MessageList />
@@ -113,4 +140,5 @@ const ChatPage = () => {
     </div>
   );
 };
+
 export default ChatPage;
