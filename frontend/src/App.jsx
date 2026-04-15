@@ -1,23 +1,24 @@
-
 import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
+import VoiceCallPage from "./pages/VoiceCallPage.jsx"; // ✅ NEW
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import FriendsPage from "./pages/FriendsPage.jsx";
+import NotificationsPage from "./pages/NotificationsPage.jsx";
+
 import { Routes, Route, Navigate } from "react-router";
 import { Toaster } from "react-hot-toast";
-import Layout from "./components/Layout.jsx";
 
+import Layout from "./components/Layout.jsx";
 import PageLoader from "./components/PageLoader.jsx";
+
 import useAuthUser from "./hooks/useAuthUser.js";
 import { useThemeStore } from "./store/useThemeStore.jsx";
-import NotificationsPage from "./pages/NotificationsPage.jsx";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
-
   const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
@@ -26,8 +27,9 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className=" h-screen" data-theme={theme}>
+    <div className="h-screen" data-theme={theme}>
       <Routes>
+        {/* Home */}
         <Route
           path="/"
           element={
@@ -40,6 +42,8 @@ const App = () => {
             )
           }
         />
+
+        {/* Signup */}
         <Route
           path="/signup"
           element={
@@ -50,6 +54,8 @@ const App = () => {
             )
           }
         />
+
+        {/* Login */}
         <Route
           path="/login"
           element={
@@ -60,6 +66,8 @@ const App = () => {
             )
           }
         />
+
+        {/* Notifications */}
         <Route
           path="/notifications"
           element={
@@ -72,6 +80,8 @@ const App = () => {
             )
           }
         />
+
+        {/* 🎥 Video Call */}
         <Route
           path="/call/:id"
           element={
@@ -82,6 +92,20 @@ const App = () => {
             )
           }
         />
+
+        {/* 📞 Voice Call (NEW) */}
+        <Route
+          path="/voice-call/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <VoiceCallPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* Chat */}
         <Route
           path="/chat/:id"
           element={
@@ -94,6 +118,8 @@ const App = () => {
             )
           }
         />
+
+        {/* Onboarding */}
         <Route
           path="/onboarding"
           element={
@@ -108,6 +134,8 @@ const App = () => {
             )
           }
         />
+
+        {/* Friends */}
         <Route
           path="/friends"
           element={
@@ -121,6 +149,7 @@ const App = () => {
           }
         />
       </Routes>
+
       <Toaster />
     </div>
   );
