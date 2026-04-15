@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@property --border-angle {
+    inherits: false;
+    initial-value: 0deg;
+    syntax: '<angle>';
+}
+
 .str-chat__channel {
   display: flex;
   align-items: center;
