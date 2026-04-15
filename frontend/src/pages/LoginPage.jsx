@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { login } from "../lib/api";
-import { Send } from "lucide-react";
+import { Send, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
+import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -28,124 +31,159 @@ const LoginPage = () => {
 
   return (
     <div
-      className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="Dim"
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: "linear-gradient(135deg, #1a1f2e 0%, #16213e 100%)",
+      }}
     >
-      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
-        {/* LOGIN FORM SECTION */}
-        <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
-          {/* LOGO */}
-          <div className="mb-4 flex items-center justify-start gap-2">
-            <Send className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-              Connect
-            </span>
-          </div>
+      <BorderAnimatedContainer>
+        <div className="flex w-full max-w-4xl rounded-2xl overflow-hidden">
+          {/* LEFT — Form */}
+          <div className="w-full lg:w-1/2 p-10 flex flex-col gap-6">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(56,189,248,0.15)" }}
+              >
+                <Send className="w-8 h-8 text-sky-400" />
+              </div>
+              <span
+                className="text-4xl font-bold font-mono tracking-normal"
+                style={{
+                  background: "linear-gradient(90deg, #38bdf8, #818cf8)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Connect
+              </span>
+            </div>
 
-          <div className="w-full">
-            <form onSubmit={handleLogin}>
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-xl font-semibold">Welcome Back</h2>
-                  <p className="text-sm opacity-70">
-                    Sign in to your account to continue your language journey
-                  </p>
-                </div>
+            {/* Heading */}
+            <div>
+              <h2 className="text-xl font-semibold text-slate-100">
+                Welcome Back
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">
+                Sign in to your account to continue your journey
+              </p>
+            </div>
 
-                <div className="flex flex-col gap-3">
-                  <div className="form-control w-full space-y-2">
-                    <label className="label">
-                      <span className="label-text">Email</span>
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="hello@example.com"
-                      className="input input-bordered w-full"
-                      value={loginData.email}
-                      onChange={(e) =>
-                        setLoginData({ ...loginData, email: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control w-full space-y-2">
-                    <label className="label">
-                      <span className="label-text">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className="input input-bordered w-full"
-                      value={loginData.password}
-                      onChange={(e) =>
-                        setLoginData({ ...loginData, password: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-full"
-                    disabled={isPending}
-                  >
-                    {isPending ? (
-                      <>
-                        <span className="loading loading-spinner loading-xs"></span>
-                        Signing in...
-                      </>
-                    ) : (
-                      "Sign In"
-                    )}
-                  </button>
-
-                  <div className="space"></div>
-                  {/* ERROR MESSAGE DISPLAY */}
-                  {error && (
-                    <div className="alert alert-error mb-4">
-                      <span>{error.response.data.message}</span>
-                    </div>
-                  )}
-
-                  <div className="text-center mt-4">
-                    <p className="text-sm">
-                      Don't have an account?{" "}
-                      <Link
-                        to="/signup"
-                        className="text-primary hover:underline"
-                      >
-                        Create one
-                      </Link>
-                    </p>
-                  </div>
+            {/* Form */}
+            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+              {/* Email */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm text-slate-400">Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                  <input
+                    type="email"
+                    placeholder="hello@example.com"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-slate-200 placeholder-slate-600 outline-none"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}
+                    value={loginData.email}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, email: e.target.value })
+                    }
+                    required
+                  />
                 </div>
               </div>
+
+              {/* Password */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm text-slate-400">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-lg text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-sky-500/50"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, password: e.target.value })
+                    }
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-full py-2.5 rounded-lg text-sm font-semibold text-white mt-1"
+                style={{ background: "#0ea5e9" }}
+              >
+                {isPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="loading loading-spinner loading-xs" />
+                    Signing in...
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+
+              {error && (
+                <div className="alert alert-error">
+                  <span>{error.response?.data?.message}</span>
+                </div>
+              )}
+
+              <p className="text-center text-sm text-slate-500">
+                Don't have an account?{" "}
+                <Link to="/signup" className="text-sky-400 hover:underline">
+                  Create one
+                </Link>
+              </p>
             </form>
           </div>
-        </div>
 
-        {/* IMAGE SECTION */}
-        <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
-          <div className="max-w-md p-8">
-            {/* Illustration */}
-            <div className="relative aspect-square max-w-sm mx-auto">
+          {/* RIGHT — Illustration */}
+          <div
+            className="hidden lg:flex w-1/2 flex-col items-center justify-center gap-6 p-10"
+            style={{
+              background: "rgba(56,189,248,0.04)",
+              borderLeft: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <div className="relative aspect-square max-w-xs w-full">
               <img
                 src="/i.png"
                 alt="Language connection illustration"
-                className="w-full h-full"
+                className="w-full h-full object-contain"
               />
             </div>
 
-            <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">
+            <div className="text-center space-y-3">
+              <h3 className="text-sm font-semibold text-slate-400">
                 Connect with people worldwide and turn conversations into real
                 friendships
-              </h2>
+              </h3>
             </div>
           </div>
         </div>
-      </div>
+      </BorderAnimatedContainer>
     </div>
   );
 };
