@@ -17,7 +17,7 @@ import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 
 import ChatLoader from "../components/ChatLoader";
-import { Phone, Video } from "lucide-react";
+import { Video } from "lucide-react"; 
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -49,7 +49,7 @@ const ChatPage = () => {
             name: authUser.fullName,
             image: authUser.profilePic,
           },
-          tokenData.token
+          tokenData.token,
         );
 
         const channelId = [authUser._id, targetUserId].sort().join("-");
@@ -73,7 +73,7 @@ const ChatPage = () => {
     initChat();
   }, [tokenData, authUser, targetUserId]);
 
-  // 🎥 Video Call
+  //  Video Call ONLY
   const handleVideoCall = () => {
     if (channel) {
       const callUrl = `${window.location.origin}/call/${channel.id}`;
@@ -86,46 +86,21 @@ const ChatPage = () => {
     }
   };
 
-  // 📞 Voice Call
-  const handleVoiceCall = () => {
-    if (channel) {
-      const callUrl = `${window.location.origin}/voice-call/${channel.id}`;
-
-      channel.sendMessage({
-        text: `📞 Voice call started. Join here: ${callUrl}`,
-      });
-
-      toast.success("Voice call link sent!");
-    }
-  };
-
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
-    <div className="h-[94vh]">
+    <div className="h-[95vh]">
       <Chat client={chatClient}>
         <Channel channel={channel}>
           <div className="w-full relative">
-
-            {/* 🔥 Top Right Call Buttons */}
+            {/*  Top Right Call Button  */}
             <div className="absolute top-3 right-3 flex gap-2 z-10">
-              
-              {/* Voice Call */}
-              <button
-                onClick={handleVoiceCall}
-                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md transition"
-              >
-                <Phone size={18} />
-              </button>
-
-              {/* Video Call */}
               <button
                 onClick={handleVideoCall}
                 className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition"
               >
                 <Video size={18} />
               </button>
-
             </div>
 
             <Window>
@@ -134,6 +109,7 @@ const ChatPage = () => {
               <MessageInput focus />
             </Window>
           </div>
+
           <Thread />
         </Channel>
       </Chat>
