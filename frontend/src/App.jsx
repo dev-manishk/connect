@@ -2,7 +2,7 @@ import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
-import VoiceCallPage from "./pages/VoiceCallPage.jsx"; // ✅ NEW
+
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import FriendsPage from "./pages/FriendsPage.jsx";
@@ -87,18 +87,6 @@ const App = () => {
           element={
             isAuthenticated && isOnboarded ? (
               <CallPage />
-            ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
-            )
-          }
-        />
-
-        {/* 📞 Voice Call (NEW) */}
-        <Route
-          path="/voice-call/:id"
-          element={
-            isAuthenticated && isOnboarded ? (
-              <VoiceCallPage />
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
