@@ -8,26 +8,18 @@
     syntax: '<angle>';
 }
 
-.str-chat__channel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, #0e0112, #2f0534);
-  height: 100%;
-}
-
 .str-chat__container {
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
-  height: 90% !important;
+  height: 94% !important;
   margin: 0 auto !important;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
 .str-chat__list {
-  background-color: #f2eeee;
+  background-color: #f8f8f8;
   padding: 12px;
 }
 
@@ -36,5 +28,5 @@
 }
 
 .str-chat__message-input {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #f2ecec;
 }
