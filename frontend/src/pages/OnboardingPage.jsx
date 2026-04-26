@@ -134,8 +134,8 @@ const OnboardingPage = () => {
         />
       </div>
 
-      {/* ── MAIN CARD ── */}
-      <div className="relative z-10 w-full max-w-lg">
+      {/*MAIN CARD*/}
+      <div className="relative z-10 w-full max-w-2xl">
         <BorderAnimatedContainer>
           <div className="rounded-2xl overflow-hidden backdrop-blur-[32px] bg-slate-950/50 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] p-6">
             {/* Logo + Header */}
@@ -171,7 +171,7 @@ const OnboardingPage = () => {
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {/* Avatar — horizontal layout to save vertical space */}
+              {/*  horizontal layout to save vertical space */}
               <div className="flex items-center gap-4">
                 <div
                   className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center"
